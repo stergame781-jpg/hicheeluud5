@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="mn"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Миний хичээлийн хуваарь</title>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--leather:#2b1e18;--gold:#c9a45c;--ink:#3a2e24;--k:1.4;
+--paper:radial-gradient(ellipse at 50% 40%,#f7f0de,#eadfc6);
+--noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .27 0 0 0 0 .15 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E")}
+@media(max-width:700px){:root{--k:3.4}}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow-x:hidden}
+body{font-family:'PT Serif',Georgia,'Times New Roman',serif;color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.2vh;padding:34px 0 16px;touch-action:pan-y;
+background:radial-gradient(ellipse 60% 50% at 18% 8%,rgba(255,190,100,.35),transparent 70%),repeating-linear-gradient(92deg,rgba(0,0,0,.12) 0 2px,transparent 2px 9px,rgba(255,200,140,.04) 9px 11px),linear-gradient(180deg,#3d2616,#26160d 60%,#1a0e08);min-height:100dvh}
+body::after{content:"";position:fixed;inset:0;background:radial-gradient(ellipse at 50% 45%,transparent 40%,rgba(0,0,0,.55));pointer-events:none}
+.wrap{width:min(94vw,calc((100dvh - 170px)*1.45),1100px);container-type:inline-size;position:relative;z-index:2}
+@media(max-width:700px){.wrap{width:min(94vw,calc((100dvh - 170px)*.9))}}
+.shift{transition:transform 1.1s cubic-bezier(.5,.1,.2,1)}
+.shift.closed{transform:translateX(-25%)}
+.book{position:relative;width:100%;aspect-ratio:1.45/1;perspective:2800px;font-size:calc(var(--k)*1cqw)}
+@media(max-width:700px){.book{aspect-ratio:.9/1}}
+.board{position:absolute;top:-1.8%;bottom:-2.4%;background:linear-gradient(#34261d,var(--leather));box-shadow:0 2.5em 3em rgba(0,0,0,.7),0 .4em .6em rgba(0,0,0,.6);z-index:0}
+.bl{left:-1.4%;width:51.4%;border-radius:.6em 0 0 .6em;transition:opacity .6s}
+.br{left:50%;width:51.4%;border-radius:0 .6em .6em 0}
+.closed .bl{opacity:0}
+.pb{position:absolute;top:0;bottom:0;width:50%;background:#efe5cd;z-index:1}
+.pbl{left:0;box-shadow:-.15em .15em 0 #e2d7bb,-.3em .3em 0 #d6c9a9,-.45em .45em 0 #c9bb98;transition:opacity .6s}
+.pbr{left:50%;box-shadow:.15em .15em 0 #e2d7bb,.3em .3em 0 #d6c9a9,.45em .45em 0 #c9bb98}
+.closed .pbl{opacity:0}
+.sheet{position:absolute;left:50%;top:0;width:50%;height:100%;transform-origin:left center;transform-style:preserve-3d;transition:transform 1.15s cubic-bezier(.55,.05,.25,1)}
+.sheet.flip{transform:rotateY(-180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
+.face *{backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.b{transform:rotateY(180deg)}
+.pg{position:absolute;inset:0;background:var(--noise),var(--paper);display:flex;flex-direction:column}
+.pg::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:3}
+.pg.r::before{background:linear-gradient(90deg,rgba(40,25,10,.38),rgba(40,25,10,.08) 7%,transparent 16%),linear-gradient(270deg,rgba(60,40,10,.12),transparent 4%)}
+.pg.l::before{background:linear-gradient(270deg,rgba(40,25,10,.38),rgba(40,25,10,.08) 7%,transparent 16%),linear-gradient(90deg,rgba(60,40,10,.12),transparent 4%)}
+.pg.r{border-radius:0 .25em .25em 0}.pg.l{border-radius:.25em 0 0 .25em}
+.face::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.45),rgba(0,0,0,.1) 70%,transparent);opacity:0;pointer-events:none;z-index:5}
+.turning .face::after{animation:sh 1.15s ease-in-out}
+@keyframes sh{50%{opacity:1}}
+.in{flex:1;padding:8% 9% 6%;display:flex;flex-direction:column;position:relative;z-index:2}
+.pn{position:absolute;bottom:3%;font-size:.7em;opacity:.55;z-index:2;letter-spacing:.1em}
+.r .pn{right:9%}.l .pn{left:9%}
+.hd{text-align:center;padding-bottom:.9em;border-bottom:.08em solid var(--ac);position:relative}
+.hd::after{content:"";position:absolute;left:50%;bottom:-.3em;width:.5em;height:.5em;background:var(--ac);transform:translateX(-50%) rotate(45deg)}
+h1{font-size:2.3em;letter-spacing:.07em;color:var(--ac);filter:brightness(.78);font-weight:700}
+.hd p{font-size:.62em;letter-spacing:.32em;margin-top:.5em;opacity:.8}
+.hd em{display:inline-block;margin-top:.7em;font-size:.82em;padding:.15em .9em;border:.07em solid var(--ac);border-radius:2em}
+ol{list-style:none;margin-top:1.6em;flex:1}
+li{display:flex;align-items:center;gap:.8em;padding:.75em 0;border-bottom:.06em dotted rgba(80,60,40,.4);font-size:1.08em}
+li span.n{width:1.6em;height:1.6em;border-radius:50%;background:var(--ac);color:#fff;font-size:.72em;display:grid;place-items:center;flex:none;text-shadow:0 1px 1px rgba(0,0,0,.3)}
+li span.s{flex:1}li span.h{font-style:italic;opacity:.8;font-size:.9em;white-space:nowrap}
+.ft{text-align:center;font-style:italic;font-size:.95em;color:#6b5a45;padding-top:.6em}
+.ft::before{content:"❦ ";color:var(--gold)}
+.orn{text-align:center;font-size:2.2em;color:var(--gold);margin-bottom:.3em}
+.ov h3{text-align:center;font-size:.7em;letter-spacing:.3em;font-weight:400;margin-bottom:1.2em}
+.ov div{display:flex;align-items:center;gap:.7em;padding:.6em .5em;border-bottom:.06em solid rgba(80,60,40,.2);font-size:.95em;opacity:.55}
+.ov div.on{opacity:1;background:rgba(0,0,0,.04);font-weight:700}
+.ov i{width:.9em;height:.9em;border-radius:50%;background:var(--ac)}.ov span{flex:1;letter-spacing:.08em}.ov b{font-weight:400;font-size:.85em}
+.cover{position:absolute;inset:0;border-radius:0 .5em .5em 0;background:var(--noise),radial-gradient(ellipse at 30% 20%,#42302a,#1f1510 70%);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:10% 8%;text-align:center;box-shadow:inset 0 0 0 .1em rgba(0,0,0,.5),inset .6em 0 .8em rgba(0,0,0,.45)}
+.cover::before{content:"";position:absolute;inset:4.5%;border:.12em solid var(--gold);outline:.07em solid var(--gold);outline-offset:.35em;opacity:.8;pointer-events:none}
+.cover h2{font-size:1.4em;font-weight:700;letter-spacing:.12em;line-height:1.35;color:var(--gold);text-shadow:0 .06em 0 #f1dea6,0 -.05em 0 #4a3510,0 .15em .2em rgba(0,0,0,.7);position:relative}
+.cover p{font-size:.7em;letter-spacing:.22em;color:var(--gold);opacity:.85;text-shadow:0 .06em 0 #4a3510;position:relative}
+.cover svg{width:62%;height:auto;position:relative;filter:drop-shadow(0 .1em .2em #000)}
+.sheet:first-child .f{animation:glow 3.5s ease-in-out infinite}
+.flip:first-child .f,.open .sheet:first-child .f{animation:none}
+@keyframes glow{50%{filter:brightness(1.12)}}
+.tabs{position:absolute;left:52%;right:3%;top:calc(var(--k)*-1.55cqw);display:flex;gap:.5%;z-index:40;opacity:0;pointer-events:none;transition:opacity .5s}
+.open .tabs{opacity:1;pointer-events:auto}
+.tabs button{flex:1;height:calc(var(--k)*1.7cqw);border:0;border-radius:.4em .4em 0 0;background:var(--c);color:#fff;font:700 .72em 'PT Serif',serif;cursor:pointer;box-shadow:inset 0 -.2em .3em rgba(0,0,0,.18),0 -.1em .3em rgba(0,0,0,.4);transition:transform .25s}
+.tabs button.on{transform:translateY(-.5em);height:calc(var(--k)*2.2cqw);margin-bottom:-.1em}
+.ctl{display:flex;align-items:center;gap:14px;z-index:3;transition:opacity .5s;color:#e9d9b0}
+.ctl.off{opacity:0;pointer-events:none}
+.ctl button{width:44px;height:44px;border-radius:50%;border:1px solid #7a5d2c;background:radial-gradient(circle at 35% 30%,#d9bc78,#8a6a30);color:#2b1e18;font-size:22px;cursor:pointer;box-shadow:0 3px 8px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.4)}
+.ctl button:disabled{opacity:.35;cursor:default}
+.ctl span{min-width:64px;text-align:center;letter-spacing:.15em;font-size:15px;text-shadow:0 1px 3px #000}
+.deco{position:fixed;z-index:1;pointer-events:none}
+.lamp{left:3%;top:2%;width:150px}.pen{right:3%;bottom:10%;width:190px;transform:rotate(-24deg)}
+.nb{left:3%;bottom:8%;width:150px;transform:rotate(8deg)}.plant{right:3%;top:4%;width:110px}
+@media(max-width:1000px){.deco{display:none}}
+</style></head><body>
+<svg class="deco lamp" viewBox="0 0 150 150"><defs><radialGradient id="g"><stop offset="0" stop-color="#ffd58a" stop-opacity=".9"/><stop offset="1" stop-color="#ffd58a" stop-opacity="0"/></radialGradient></defs><circle cx="95" cy="40" r="60" fill="url(#g)"/><path d="M20 140l40-80 30-30" stroke="#a8883f" stroke-width="5" fill="none"/><path d="M75 28l38 8-14 26z" fill="#2f5a3d"/><ellipse cx="22" cy="142" rx="22" ry="6" fill="#a8883f"/></svg>
+<svg class="deco nb" viewBox="0 0 150 100"><rect width="150" height="100" rx="5" fill="#5d3b2c" stroke="#c9a45c" stroke-width="2"/><rect x="8" y="0" width="6" height="100" fill="#2b1e18"/></svg>
+<svg class="deco pen" viewBox="0 0 190 20"><rect y="5" width="150" height="10" rx="5" fill="#101018"/><rect x="100" y="5" width="6" height="10" fill="#c9a45c"/><path d="M150 5l38 5-38 5z" fill="#d9bc78"/></svg>
+<svg class="deco plant" viewBox="0 0 110 140"><path d="M55 90C30 70 20 40 30 15c25 10 30 40 25 75zM55 90c5-35 20-60 50-65-5 35-20 55-50 65zM55 90C45 60 55 30 62 5c15 25 5 60-7 85z" fill="#4c7a52"/><path d="M28 90h54l-8 45H36z" fill="#8a5a3c"/></svg>
+
+<div class="wrap"><div class="shift closed" id="shift">
+<div class="book" id="book"><div class="board bl"></div><div class="board br"></div><div class="pb pbl"></div><div class="pb pbr"></div><div class="tabs" id="tabs"></div></div></div></div>
+<div class="ctl off" id="ctl"><button id="home" aria-label="Нүүр">⌂</button><button id="prev" aria-label="Өмнөх">‹</button><span id="ind"></span><button id="next" aria-label="Дараах">›</button></div>
+
+<script>
+const D=[
+{n:"ДАВАА",c:"#7d98b3",s:[["Түүх",2],["Дизайн",2],["Газар зүй",1],["Эрүүл мэнд",1],["Монгол хэл",1]]},
+{n:"МЯГМАР",c:"#8fa88a",s:[["Хөгжим",1],["Математик",2],["Орос хэл",1],["Англи хэл",2]]},
+{n:"ЛХАГВА",c:"#c28f9a",s:[["Ёс зүй",2],["Математик",1],["Орос хэл",1],["Хими",2],["Нийгэм",1]]},
+{n:"ПҮРЭВ",c:"#c9ae82",s:[["Мэдээлэл зүй",1],["Англи хэл",1],["Үндэсний бичиг",2],["Биологи",2]]},
+{n:"БААСАН",c:"#a99bc4",s:[["Биеийн тамир",2],["Монгол хэл",1],["Физик",2],["Уран зохиол",2]]}];
+const tot=d=>d.s.reduce((a,x)=>a+x[1],0);
+const TAB=["Да","Мя","Лх","Пү","Ба"];
+const left=d=>{const x=D[d];return `<div class="pg l" style="--ac:${x.c}"><div class="in"><div class="orn">❦</div><div class="ov"><h3>ХИЧЭЭЛИЙН ХУВААРЬ</h3>${D.map((y,i)=>`<div class="${i==d?'on':''}" style="--ac:${y.c}"><i></i><span>${y.n}</span><b>${tot(y)} цаг</b></div>`).join('')}</div></div><span class="pn">${2*d+1}</span></div>`};
+const right=d=>{const x=D[d];return `<div class="pg r" style="--ac:${x.c}"><div class="in"><div class="hd"><h1>${x.n}</h1><p>ХИЧЭЭЛИЙН ХУВААРЬ</p><em>Нийт ${tot(x)} цаг</em></div><ol>${x.s.map((s,i)=>`<li><span class="n">${i+1}</span><span class="s">${s[0]}</span><span class="h">${s[1]} цаг</span></li>`).join('')}</ol><div class="ft">Амжилт танд!</div></div><span class="pn">${2*d+2}</span></div>`};
+const cover=`<div class="cover"><h2>МИНИЙ ХИЧЭЭЛИЙН ХУВААРЬ</h2><svg viewBox="0 0 200 110"><rect width="200" height="110" fill="#1a1512" stroke="#c9a45c" stroke-width="1.5"/><circle cx="150" cy="28" r="11" fill="#bdbdbd"/><path d="M0 85L45 32l30 36 28-44 50 61 47-30v50H0z" fill="#6e6e6e"/><path d="M0 100l55-40 35 25 45-35 65 40v20H0z" fill="#3b3b3b"/><path d="M103 24l-12 18 10-4 6 6 8-8z" fill="#e6e6e6"/></svg><p>2026–2027 ОНЫ ХИЧЭЭЛИЙН ЖИЛ<br><span style="display:inline-block;margin-top:.8em;letter-spacing:.14em">Зохиогч: Батбилэг Соёмбо</span></p></div>`;
+const book=document.getElementById('book'),shift=document.getElementById('shift');
+const sheets=[];
+for(let i=0;i<6;i++){const s=document.createElement('div');s.className='sheet';
+s.innerHTML=`<div class="face f">${i==0?cover:right(i-1)}</div><div class="face b">${i<=4?left(i):'<div class="pg l"></div>'}</div>`;
+s.lastChild.style.visibility='hidden';s.style.zIndex=20-i;book.appendChild(s);sheets.push(s)}
+const tabs=document.getElementById('tabs');
+D.forEach((d,i)=>{const b=document.createElement('button');b.textContent=TAB[i];b.style.setProperty('--c',d.c);b.title=d.n;b.onclick=()=>go(i+1);tabs.appendChild(b)});
+let f=0;
+function flip(i,on,delay){const s=sheets[i];s.style.transitionDelay=delay+'ms';s.classList.toggle('flip',on);
+setTimeout(()=>s.classList.add('turning'),delay);
+setTimeout(()=>{s.style.zIndex=on?i+1:20-i;s.firstChild.style.visibility=on?'hidden':'visible';s.lastChild.style.visibility=on?'visible':'hidden'},delay+560);
+setTimeout(()=>s.classList.remove('turning'),delay+1200)}
+function go(t){t=Math.max(0,Math.min(5,t));if(t===f)return;
+if(t>f)for(let i=f;i<t;i++)flip(i,true,(i-f)*170);
+else for(let i=f-1;i>=t;i--)flip(i,false,(f-1-i)*170);
+f=t;ui()}
+function ui(){shift.classList.toggle('closed',f===0);book.classList.toggle('open',f>0);
+document.getElementById('ctl').classList.toggle('off',f===0);
+document.getElementById('ind').textContent=f?`${f} / 5`:'';
+document.getElementById('next').disabled=f>=5;
+[...tabs.children].forEach((b,i)=>b.classList.toggle('on',i===f-1))}
+sheets[0].onclick=()=>{if(f===0)go(1)};
+document.getElementById('next').onclick=()=>go(f+1);
+document.getElementById('prev').onclick=()=>go(f-1);
+document.getElementById('home').onclick=()=>go(0);
+addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(f+1);if(e.key==='ArrowLeft')go(f-1)});
+let x0=null,y0=0;
+addEventListener('touchstart',e=>{x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});
+addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;x0=null;
+if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.3)go(dx<0?f+1:f-1)});
+ui();
+</script></body></html>
